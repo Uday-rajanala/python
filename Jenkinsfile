@@ -13,11 +13,11 @@ pipeline{
   }
     stage('build image'){
       steps{
-        sh'docker build -t $IMAGE : $VERSION .'
+        sh 'docker build -t $IMAGE : $VERSION .'
     }
   stage('build_container'){
     steps(
-      sh'docker run --name container1 -dp  5000:5000 $IMAGE :$VERSION '
+      sh 'docker run --name container1 -dp  5000:5000 $IMAGE :$VERSION '
     )
   }
 }
