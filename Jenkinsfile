@@ -8,6 +8,7 @@ pipeline{
     stage('clone_repo'){
       steps{
         sh 'echo "clone the repository "'
+        sh 'pwd'
       }
   }
     stage('build image'){
