@@ -1,23 +1,29 @@
-pipeline{
-  agent any
-  environments{
-    IMAGE=uday
-    VERSION=${build_number}
-  }
-  stages{
-    stage('clone_repo'){
-      steps{
-        sh 'echo "clone the repository "'
-        sh 'pwd'
-      }
-  }
-    stage('build image'){
-      steps{
-        sh 'docker build -t $IMAGE : $VERSION .'
+pipeline {
+    agent any
+
+    environment {
+        IMAGE = 'uday'
+        VERSION = "${BUILD_NUMBER}"
     }
-  stage('build_container'){
-    steps(
-      sh 'docker run --name container1 -dp  5000:5000 $IMAGE :$VERSION '
-    )
-  }
+
+    stages {
+        stage('Clone Repo') {
+            steps {
+                echo "Cloning the repository"
+                sh 'pwd'
+            }
+        }
+
+        stage('Build Image') {
+            steps {
+                sh 'docker build -t $IMAGE:$VERSION .'
+            }
+        }
+
+        stage('Build Container') {
+            steps {
+                sh 'docker run --name container1 -dp 5000:5000 $IMAGE:$VERSION'
+            }
+        }
+    }
 }
