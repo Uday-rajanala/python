@@ -23,6 +23,7 @@ pipeline {
 
         stage('Build Container') {
             steps {
+                sh 'docker run --name container1 -dp 5000:5000 uday:2'
                 sh 'docker run --name container1 -dp 5000:5000 $IMAGE:$VERSION'
             }
         }
