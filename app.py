@@ -8,7 +8,7 @@ app = Flask(__name__)
 def home():
     html = """
     <html>
-    <head><title>My Flask EC2 App</title></head>
+    <head><title>Priacc Innovations</title></head>
     <body style="font-family: Arial; margin: 40px;">
         <h1>Welcome to Priacc Innovations</h1>
         <p>This app is running directly on EC2 without Docker.</p>
