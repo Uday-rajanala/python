@@ -11,6 +11,7 @@ pipeline {
             steps {
                 echo "Cloning the repository"
                 sh 'pwd'
+                sh 'ls'
             }
         }
 
