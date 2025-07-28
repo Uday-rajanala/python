@@ -7,27 +7,25 @@ pipeline {
     }
 
     stages {
-        stage('Git Clone') {
+        stage('Git-Clone') {
             steps {
-                git url: 'https://github.com/Uday-rajanala/python.git',
-                    branch: 'main',
-                    credentialsId: 'github-token'
+                git url: 'https://github.com/Uday-rajanala/python.git', branch: 'main', credentialsId: 'github-token'
             }
         }
 
-        stage('List Files') {
+        stage('List-Contents') {
             steps {
                 sh 'ls -la'
             }
         }
 
-        stage('Build Docker Image') {
+        stage('Build-Docker') {
             steps {
                 sh "docker build -t $IMAGE_NAME ."
             }
         }
 
-        stage('Run App in Docker') {
+        stage('Run-Docker') {
             steps {
                 sh "docker rm -f $CONTAINER_NAME || true"
                 sh "docker run -d --name $CONTAINER_NAME -p 5000:5000 $IMAGE_NAME"
@@ -37,9 +35,7 @@ pipeline {
 
     post {
         always {
-            echo 'Cleaning workspace...'
             deleteDir()
         }
     }
 }
-
