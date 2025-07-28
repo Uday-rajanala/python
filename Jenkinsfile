@@ -2,29 +2,44 @@ pipeline {
     agent any
 
     environment {
-        IMAGE = 'uday'
-        VERSION = "${BUILD_NUMBER}"
+        IMAGE_NAME = 'priacc-flask-app'
+        CONTAINER_NAME = 'priacc-container'
     }
 
     stages {
-        stage('Clone Repo') {
+        stage('Git Clone') {
             steps {
-                echo "Cloning the repository"
-                sh 'pwd'
-                sh 'ls'
+                git url: 'https://github.com/Uday-rajanala/python.git',
+                    branch: 'main',
+                    credentialsId: 'github-token'
             }
         }
 
-        stage('Build Image') {
+        stage('List Files') {
             steps {
-                sh 'docker build -t $IMAGE:$VERSION .'
+                sh 'ls -la'
             }
         }
 
-        stage('Build Container') {
+        stage('Build Docker Image') {
             steps {
-                sh 'docker run --name container1 -dp 5000:5000 $IMAGE:$VERSION'
+                sh "docker build -t $IMAGE_NAME ."
+            }
+        }
+
+        stage('Run App in Docker') {
+            steps {
+                sh "docker rm -f $CONTAINER_NAME || true"
+                sh "docker run -d --name $CONTAINER_NAME -p 5000:5000 $IMAGE_NAME"
             }
         }
     }
+
+    post {
+        always {
+            echo 'Cleaning workspace...'
+            deleteDir()
+        }
+    }
 }
+
